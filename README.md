@@ -1,6 +1,7 @@
 # Milestone2: Java FX GUI interface at start 
 
 [Canvas Details](https://canvas.wisc.edu/courses/91820/assignments/264922)
+
 [Tournament Bracket](https://canvas.wisc.edu/courses/91820/pages/program-design-problem-statement-tournament-bracket)
 
 # The GUI
