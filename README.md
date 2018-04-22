@@ -1,21 +1,18 @@
-# DictionaryGraph
-Dictionary using the Graph ADT
+# Milestone2: Java FX GUI interface at start 
 
-[Canvas Details](https://canvas.wisc.edu/courses/91820/pages/p4-dictionary-graph)
+[Canvas Details](https://canvas.wisc.edu/courses/91820/assignments/264922)
+[Tournament Bracket](https://canvas.wisc.edu/courses/91820/pages/program-design-problem-statement-tournament-bracket)
 
-[Markdown Cheatsheet for Reference](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+# The GUI
+Submit a program that displays a GUI that shows the initial view that the user will see for your program.
+The UI does not have to function.  It just has to show up and show the user interface the user will see at the start.  It can use hard-coded values for any data that will eventually be read or generated.   Be sure to include labels, status messages, and or instructions to the user as may be required.
 
-# Todo:
-* ~~Complete Graph Class~~ (Andrew)
-  * ~~Implement all methods~~
-* Complete Graph Processor Class
-  * Complete PopulateGraph Method (Tom)
-  * Complete Distance/Path Methods (Joyce)
-* Complete Word Processor Class
-  * Complete getWordStream Method (Mike)
-  * ~~Complete isAdjacent Method~~ (Collin)
-* Create a thorough GraphProcessorTest Class
-  * Generate & implement ideas for testing (Everyone)
-* Debug each class thoroughly (Everyone)
+Points will be awarded based on [Nielsen's](https://www.nngroup.com/articles/ten-usability-heuristics/) Links to an external site.  
 
-**Please edit the readme once a task has been complete!**
+Since full functionality is not yet required, we will focus on aesthetic and completeness at the start.
+
+# Submit:
+* screenshot.jpg (or .png) 
+  * screen shot of your GUI after starting your program and before interacting with it
+* *.java 
+  * submit all java files necessary for us to run your Java FX GUI program and see your user interface
