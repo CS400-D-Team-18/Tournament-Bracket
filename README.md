@@ -12,8 +12,12 @@ Points will be awarded based on [Nielsen's](https://www.nngroup.com/articles/ten
 
 Since full functionality is not yet required, we will focus on aesthetic and completeness at the start.
 
-# Submit:
+# Submit
 * screenshot.jpg (or .png) 
   * screen shot of your GUI after starting your program and before interacting with it
 * *.java 
   * submit all java files necessary for us to run your Java FX GUI program and see your user interface
+
+# Expected Grading Rubric
+* Completeness 10pts - all required components present
+* Layout 10pts - layout is as expected
