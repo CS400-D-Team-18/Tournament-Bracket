@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.control.Button;
+
 public class Game {
 	
 	int gameNumber;
@@ -7,6 +9,7 @@ public class Game {
 	Challenger challenger2;
 	Game childGame;
 	int childGameChallengerNumber;
+	Button gameScoreButton;
 	
 	public Game(int gameNumber) {
 		this.gameNumber = gameNumber;
@@ -27,6 +30,14 @@ public class Game {
 		this.childGameChallengerNumber = childGameChallengerNumber;
 	}
 	
+	public Button getGameScoreButton() {
+		return gameScoreButton;
+	}
+
+	public void setGameScoreButton(Button gameScoreButton) {
+		this.gameScoreButton = gameScoreButton;
+	}
+
 	public void updateChildGameChallengerCoordinates(boolean isLeft, double roundXGap)
 	{
 		Challenger childGameChallenger;
