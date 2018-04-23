@@ -1,6 +1,7 @@
 package application;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class Challenger {
 	
@@ -8,7 +9,7 @@ public class Challenger {
 	double startX;
 	double startY;
 	Label challengerCell;
-	Label challengerScoreCell;
+	TextField challengerScoreCell;
 	
 	//Populated by game management
 	String name;
@@ -19,7 +20,7 @@ public class Challenger {
 		this.score = 0;
 	}
 	
-	public void updateChallengerUIInfo(Label challengerCell, Label challengerScoreCell)	{
+	public void updateChallengerUIInfo(Label challengerCell, TextField challengerScoreCell)	{
 		this.challengerCell = challengerCell;
 		this.challengerScoreCell = challengerScoreCell;
 	}
