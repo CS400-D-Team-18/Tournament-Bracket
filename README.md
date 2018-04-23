@@ -1,6 +1,7 @@
 # Milestone3: 
-* 2.3.4.: William 
-* 1.5.6.: Joyce
+* Main class
+  * 2.3.4.: William 
+  * 1.5.6.: Joyce
 
 # Milestone2: Java FX GUI interface at start 
 
