@@ -3,11 +3,15 @@ package application;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -38,9 +42,11 @@ public class Main extends Application {
 	Color lineColor = Color.WHITE;
 
 	double challengerCellWidth = 100;
-	double challengerCellHeight = 25;
+	double challengerCellHeight = 28;
 	double challengerScoreCellWidth = 50;
-	double challengerScoreCellHeight = 25;
+	double challengerScoreCellHeight = 28;
+	double gameButtonWidth = 60 ;
+	double gameButtonHeight = 28;
 	double lineThickness = 2;
 
 	double sceneWidth;
@@ -299,7 +305,7 @@ public class Main extends Application {
 	//UI draw helpers
 	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c)
 	{
-		Label challengerScoreCell = null;
+		TextField challengerScoreCell = null;
 		Label challengerCell = new Label();
 		challengerCell.setBackground(new Background(new BackgroundFill(challengerCellBGColor, CornerRadii.EMPTY, Insets.EMPTY)));
 		challengerCell.setTextFill(challengerCellFGColor);
@@ -314,13 +320,13 @@ public class Main extends Application {
 		{
 			challengerCell.setMinSize(challengerCellWidth, challengerCellHeight);
 			challengerCell.setMaxSize(challengerCellWidth, challengerCellHeight);
-			challengerScoreCell = new Label();
+			challengerScoreCell = new TextField();
 			challengerScoreCell.setMinSize(challengerScoreCellWidth, challengerScoreCellHeight);
 			challengerScoreCell.setMaxSize(challengerScoreCellWidth, challengerScoreCellHeight);
 			challengerScoreCell.setBackground(new Background(new BackgroundFill(challengerScoreCellBGColor, CornerRadii.EMPTY, Insets.EMPTY)));
-			challengerScoreCell.setTextFill(challengerScoreCellFGColor);
+			//challengerScoreCell.setTextFill(challengerScoreCellFGColor);
 			challengerScoreCell.setAlignment(Pos.CENTER);
-			challengerScoreCell.setText("0");
+			challengerScoreCell.setPromptText("Score");
 		}
 		challengerCell.setLayoutX(x);
 		challengerCell.setLayoutY(y);	
@@ -341,7 +347,28 @@ public class Main extends Application {
 			this.winnerCell = challengerCell;
 		}
 	}
+	//UI draw helpers
+	public void addGameScoreButton(int gameNum,double x, double y,Game g){
+		Button button = new Button();
+		button.setText("Submit");
+		button.setMinSize(gameButtonWidth, gameButtonHeight);
+		button.setMaxSize(gameButtonWidth, gameButtonHeight);
 
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				//System.out.println("The username is: " + usernameInput.getText());
+				//System.out.println("The password is: " + passwordInput.getText());
+			}
+		});
+		button.setLayoutX(x);
+		button.setLayoutY(y);	
+		g.setGameScoreButton(button);
+		this.root.getChildren().add(button);
+		
+	}
 	public void addLine(int x, int y, int linetype, int length)
 	{
 		Line ln = new Line();
@@ -368,6 +395,8 @@ public class Main extends Application {
 		Game currentGame;
 		int i;
 		boolean isLeft;
+		double buttonStartX = 0;
+		double buttonStartY = 0;
 
 		int numGames = 0;
 		if (rounds.size() < 1) {
@@ -390,22 +419,24 @@ public class Main extends Application {
 					for( i = 0; i<numGames/2; i++) {
 						currentGame = r.games.get(i);
 						addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger1);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
 						y = y + challengerCellHeight + challengerBoxYGap;
 						addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger2);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
 						y = y + challengerCellHeight + challengerBoxYGap;
 						currentGame.updateChildGameChallengerCoordinates(true, roundXGap);
+						
+						
 					}
 					x = sceneWidth - roundXGap - (challengerCellWidth + challengerScoreCellWidth);
 					y = challengerBoxYGap;				
 					for(i = numGames/2; i<numGames; i++) {
 						currentGame = r.games.get(i);
 						addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger1);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
 						y = y + challengerCellHeight + challengerBoxYGap;
 						addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger2);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + x + " Y = " + y);
 						y = y + challengerCellHeight + challengerBoxYGap;
 						currentGame.updateChildGameChallengerCoordinates(false, roundXGap);
 					}
@@ -418,16 +449,33 @@ public class Main extends Application {
 						}						
 						currentGame = r.games.get(i);
 						addChallengerBox("Challenger "+currentGame.gameNumber, currentGame.challenger1.startX, currentGame.challenger1.startY, 2, currentGame.challenger1);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + currentGame.challenger1.startX + " Y = " + currentGame.challenger1.startY);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + currentGame.challenger1.startX + " Y = " + currentGame.challenger1.startY);
 						currentGame.updateChildGameChallengerCoordinates(isLeft, roundXGap);
 						addChallengerBox("Challenger "+currentGame.gameNumber, currentGame.challenger2.startX, currentGame.challenger2.startY, 2, currentGame.challenger2);
-						System.out.println("Challenger "+currentGame.gameNumber + " X = " + currentGame.challenger2.startX + " Y = " + currentGame.challenger2.startY);
+						//System.out.println("Challenger "+currentGame.gameNumber + " X = " + currentGame.challenger2.startX + " Y = " + currentGame.challenger2.startY);
 						currentGame.updateChildGameChallengerCoordinates(isLeft, roundXGap);
 					}
 				}
 			}
+			for(Round r:rounds) {		
+				numGames =  r.games.size();
+				if (numGames > 1 ) {
+					for( i = 0; i<numGames;i++) {
+						currentGame = r.games.get(i);
+						buttonStartX = currentGame.challenger1.startX + ((challengerCellWidth + challengerScoreCellWidth)/2) - gameButtonWidth/2;
+						buttonStartY = currentGame.challenger1.startY +(currentGame.challenger2.startY  - currentGame.challenger1.startY )/2 +challengerCellHeight	- gameButtonHeight;
+						addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+					} 
+				}else if(numGames == 1 ) {
+					currentGame = r.games.get(0);
+					buttonStartX = ((sceneWidth/2) - gameButtonWidth/2);
+					buttonStartY =  sceneHeight/2 +  30;
+					addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+				}
+			}
 		}
 		addChallengerBox("Challenger W", ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2)), ((sceneHeight/2)-(challengerCellHeight/2)), 1, null);
+	
 	}
 
 	@Override
