@@ -34,19 +34,19 @@ public class Main extends Application {
 	int[] roundNumberArray;
 
 	//Layout UI variables
-	Color sceneBGColor = Color.GRAY;
+	Color sceneBGColor = Color.DARKGRAY;
 	Color challengerCellFGColor = Color.WHITE;
-	Color challengerCellBGColor = Color.CADETBLUE;
+	Color challengerCellBGColor = Color.BROWN;
 	Color challengerScoreCellFGColor = Color.CADETBLUE;
 	Color challengerScoreCellBGColor = Color.WHITE;
 	Color lineColor = Color.WHITE;
 
 	double challengerCellWidth = 100;
-	double challengerCellHeight = 28;
+	double challengerCellHeight = 25;
 	double challengerScoreCellWidth = 50;
-	double challengerScoreCellHeight = 28;
+	double challengerScoreCellHeight = 25;
 	double gameButtonWidth = 60 ;
-	double gameButtonHeight = 28;
+	double gameButtonHeight = 25;
 	double lineThickness = 2;
 
 	double sceneWidth;
@@ -482,15 +482,26 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			//BorderPane root = new BorderPane();
-			//Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			//primaryStage.setScene(scene);
-			//primaryStage.show();
-
+			// 2.check if it is to power of 2
+			//validateNameList();
+			
+			//3.Rearrange them in the order as per the seating
+			//reArrangeAccordingToRank();
+			
+			// 4.convert these namelist into an array;list of challenger objects
+			//createChallengerList();
+			
+		
+			
 			root = new Pane();
 
+			//5. set the num of challengers from the challenger object
 			this.numChallengers = 16;
+			
+			
+			//6.call the game managemnet
+			//can call the method as gameManagement
+			
 			this.gameManagement16();
 			
 			//this.numChallengers = 8;
@@ -518,6 +529,9 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		// 1. Code for reading file from the argument passed and store it in an arraylist of string- global --> nameList
+		
+		
 		launch(args);
 	}
 }
