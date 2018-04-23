@@ -1,3 +1,7 @@
+# Milestone3: 
+* 2.3.4.: William 
+* 1.5.6.: Joyce
+
 # Milestone2: Java FX GUI interface at start 
 
 [Canvas Details](https://canvas.wisc.edu/courses/91820/assignments/264922)
@@ -21,3 +25,4 @@ Since full functionality is not yet required, we will focus on aesthetic and com
 # Expected Grading Rubric
 * Completeness 10pts - all required components present
 * Layout 10pts - layout is as expected
+
