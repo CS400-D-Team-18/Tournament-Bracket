@@ -85,6 +85,7 @@ public class Main extends Application {
 	double roundXGap = 50;
 
 	Label winnerCell;
+	Challenger winner;
 
 	//Layout management variables
 
@@ -392,7 +393,10 @@ public class Main extends Application {
 			lineStartY = currentGame.challenger1.startY + challengerCellHeight/2;
 			length = currentGame.challenger2.startX - currentGame.challenger1.startX - challengerCellWidth-challengerScoreCellWidth;
 			addLine(lineStartX,lineStartY, 1,length);
-			addLine(lineStartX + length/2, lineStartY, 2, challengerCellHeight/2+challengerBoxYGap);
+			buttonStartX = ((sceneWidth/2) - gameButtonWidth/2);
+			buttonStartY =  lineStartY - gameButtonHeight/2;
+			addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+			addLine(lineStartX + length/2, buttonStartY +gameButtonHeight, 2, challengerCellHeight/2+challengerBoxYGap);
 		}else {
 
 			for(Round r:rounds) {		
