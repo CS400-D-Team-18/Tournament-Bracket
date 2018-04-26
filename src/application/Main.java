@@ -190,7 +190,34 @@ public class Main extends Application {
 		alertTie.setContentText("You typed in same scores for two challengers. Please type different scores here.");
 		alertTie.showAndWait();
 	}
-
+	
+	// 2.check if it is to power of 2
+	//validateNameList();
+	public boolean validateNameList(ArrayList<String> list) {
+		int s = list.size();
+		if (s == 0)
+            	return false;
+         
+		while (s != 1)
+		{
+		    if (s % 2 != 0)
+			return false;
+		    s = s / 2;
+		}
+		return true;
+	}
+	
+	// 4.convert these namelist into an array;list of challenger objects
+	//createChallengerList();
+	public ArrayList<Challenger> createChallengerList(ArrayList<String> list) {
+		ArrayList<Challenger> challengerList = new ArrayList<Challenger>();
+		for (int i = 0; i < list.size(); i++) {
+			Challenger c = new Challenger(list.get(i));
+			challengerList.add(c);
+		}
+		return challengerList;
+	}
+	
 	public void gameManagement() {
 		// (1)Set numRound, numGame depends on numChallenger 
 		setNumberInfo();
