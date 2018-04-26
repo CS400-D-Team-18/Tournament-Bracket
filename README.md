@@ -1,4 +1,8 @@
 # Milestone3: 
+* 2018/04/26 tasks update
+  * Show error message when user try to input Challenegrs over 16 or no chaleengers (Main.class, Alert window). -Joyce
+  * Show top 3 challengers using table (or labels, whatever is suitable here) with color other then brown. -Akhila
+  * Handle the submit button when user type score and press submit button (Main.class, Event handler). -Everyone 
 * Main class
   * 2.3.4.: William 
   * 1.5.6.: Joyce    (2018/04/25 finished)
