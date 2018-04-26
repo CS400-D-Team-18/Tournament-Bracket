@@ -29,6 +29,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -48,6 +49,7 @@ public class Main extends Application {
 	//Game management variables
 	static ArrayList<String> nameList;         //Change it to static by Joyce
 	static ArrayList<Challenger> challengers;  //Change it to static by Joyce
+	ArrayList<Challenger> challengerList;
 	ArrayList<Round> rounds;
 	ArrayList<Game> games;  // Added by Joyce
 	int numRounds;          // Added by Joyce
@@ -178,7 +180,7 @@ public class Main extends Application {
 		alertNoC.setContentText("Please provide 1-16 challengers here. It should be power of 2.");
 		alertNoC.showAndWait();
 	}
-	
+
 	/**
 	 * Show a error alert with header text when user type in same scores in current game.
 	 * (Added by Joyce)
@@ -190,6 +192,7 @@ public class Main extends Application {
 		alertTie.setContentText("You typed in same scores for two challengers. Please type different scores here.");
 		alertTie.showAndWait();
 	}
+	
 	
 	// 2.check if it is to power of 2
 	//validateNameList();
@@ -210,12 +213,12 @@ public class Main extends Application {
 	// 4.convert these namelist into an array;list of challenger objects
 	//createChallengerList();
 	public ArrayList<Challenger> createChallengerList(ArrayList<String> list) {
-		ArrayList<Challenger> challengerList = new ArrayList<Challenger>();
+		challengerList = new ArrayList<Challenger>();
 		for (int i = 0; i < list.size(); i++) {
 			Challenger c = new Challenger(list.get(i));
-			challengerList.add(c);
+			this.challengerList.add(c);
 		}
-		return challengerList;
+		return this.challengerList;
 	}
 	
 	public void gameManagement() {
@@ -294,14 +297,14 @@ public class Main extends Application {
 		if (this.numRounds == 4) {
 			// 16 challengers, 15 games, 4 rounds
 			// gList = {8, 4, 2, 1}
-			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(8), 1);
-			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(8), 2);
-			games.get(2).updateGameInfo(challengers.get(4), challengers.get(5), games.get(9), 1);
-			games.get(3).updateGameInfo(challengers.get(6), challengers.get(7), games.get(9), 2);
-			games.get(4).updateGameInfo(challengers.get(8), challengers.get(9), games.get(10), 1);
-			games.get(5).updateGameInfo(challengers.get(10), challengers.get(11), games.get(10), 2);
-			games.get(6).updateGameInfo(challengers.get(12), challengers.get(13), games.get(11), 1);
-			games.get(7).updateGameInfo(challengers.get(14), challengers.get(15), games.get(11), 2);
+			games.get(0).updateGameInfo(challengerList.get(0), challengerList.get(1), games.get(8), 1);
+			games.get(1).updateGameInfo(challengerList.get(2), challengerList.get(3), games.get(8), 2);
+			games.get(2).updateGameInfo(challengerList.get(4), challengerList.get(5), games.get(9), 1);
+			games.get(3).updateGameInfo(challengerList.get(6), challengerList.get(7), games.get(9), 2);
+			games.get(4).updateGameInfo(challengerList.get(8), challengerList.get(9), games.get(10), 1);
+			games.get(5).updateGameInfo(challengerList.get(10), challengerList.get(11), games.get(10), 2);
+			games.get(6).updateGameInfo(challengerList.get(12), challengerList.get(13), games.get(11), 1);
+			games.get(7).updateGameInfo(challengerList.get(14), challengerList.get(15), games.get(11), 2);
 			
 			games.get(8).updateGameInfo(null, null, games.get(12), 1);
 			games.get(9).updateGameInfo(null, null, games.get(12), 2);
@@ -315,10 +318,10 @@ public class Main extends Application {
 			
 		} else if (this.numRounds == 3) {
 			// gList = {4, 2, 1}
-			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(4), 1);
-			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(4), 2);
-			games.get(2).updateGameInfo(challengers.get(4), challengers.get(5), games.get(5), 1);
-			games.get(3).updateGameInfo(challengers.get(6), challengers.get(7), games.get(5), 2);
+			games.get(0).updateGameInfo(challengerList.get(0), challengerList.get(1), games.get(4), 1);
+			games.get(1).updateGameInfo(challengerList.get(2), challengerList.get(3), games.get(4), 2);
+			games.get(2).updateGameInfo(challengerList.get(4), challengerList.get(5), games.get(5), 1);
+			games.get(3).updateGameInfo(challengerList.get(6), challengerList.get(7), games.get(5), 2);
 			
 			games.get(4).updateGameInfo(null, null, games.get(6), 1);
 			games.get(5).updateGameInfo(null, null, games.get(6), 2);
@@ -327,17 +330,17 @@ public class Main extends Application {
 			
 		} else if (this.numRounds == 2 ) {
 			// gList = {2, 1}
-			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(2), 1);
-			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(2), 2);
+			games.get(0).updateGameInfo(challengerList.get(0), challengerList.get(1), games.get(2), 1);
+			games.get(1).updateGameInfo(challengerList.get(2), challengerList.get(3), games.get(2), 2);
 			
 			games.get(2).updateGameInfo(null, null, null, 0);
 		
 		} else if (this.numRounds ==1 ) {
 			// gList = {1}
-			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), null, 0);
+			games.get(0).updateGameInfo(challengerList.get(0), challengerList.get(1), null, 0);
 			
 		} else if (this.numRounds == 0) {
-			winner = challengers.get(0);
+			winner = challengerList.get(0);
 			return;
 		} else {
 			this.numRounds = -1;
@@ -569,33 +572,35 @@ public class Main extends Application {
 		try {
 
 			// 2.check if it is to power of 2
-			//validateNameList();
+			boolean valid = validateNameList(nameList);
+			System.out.println(valid);
 
 			//3.Rearrange them in the order as per the seating
 			//reArrangeAccordingToRank();
 
 			// 4.convert these namelist into an array;list of challenger objects
-			//createChallengerList();
-
-
+			createChallengerList(nameList);
 
 			root = new Pane();
 
-
 			//5. set the num of challengers from the challenger object
 			this.numChallengers = this.nameList.size();
-			// TODO: After William's work, these code should be deleted
-			for (int i = 0; i < this.numChallengers; i++) {
-				Challenger c = new Challenger(nameList.get(i));
-				challengers.add(c);
-			}
 			
 			// 6.call the game management, set the 1st round in the beginning
 			//can call the method as gameManagement
-			gameManagement();
+			// Show error message if challenger number is not valid.
+			if (valid) {
+				gameManagement();
+			} else if (this.numChallengers > 16) {
+				showAlertWhenCNumberIsNotValid();
+				System.exit(-1);
+			} else { // 0 challenger
+				showAlertWhenNoChallenger();
+				System.exit(-1);
+			}
 		
 			for (int i = 0; i < this.numChallengers; i++) {
-				System.out.print(challengers.get(i).getCName()+", ");
+				System.out.print(challengerList.get(i).getCName()+", ");
 			}
 			System.out.println("");
 			for (int i = 0; i < this.numGames; i++) {
@@ -605,14 +610,7 @@ public class Main extends Application {
 			for (int i = 0; i < this.numRounds; i++) {
 				System.out.print(rounds.get(i).getRoundName()+", ");
 			}
-			System.out.println("");
-			
-			// Show error message if challenger number is not valid.
-			if (this.numChallengers > 16) {
-				showAlertWhenCNumberIsNotValid();
-			} else if (this.numChallengers <= 0) {
-				showAlertWhenNoChallenger();
-			}
+			System.out.println("");	
 			
 			this.computeChallengerColumnArray();
 			this.computeSceneWidth();
