@@ -1,7 +1,7 @@
 # Milestone3: 
 * Main class
   * 2.3.4.: William 
-  * 1.5.6.: Joyce
+  * 1.5.6.: Joyce    (2018/04/25 finished)
   
 # Milestone2: Java FX GUI interface at start 
 
