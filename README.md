@@ -1,3 +1,8 @@
+# Milestone3: 
+* Main class
+  * 2.3.4.: William 
+  * 1.5.6.: Joyce
+  
 # Milestone2: Java FX GUI interface at start 
 
 [Canvas Details](https://canvas.wisc.edu/courses/91820/assignments/264922)
