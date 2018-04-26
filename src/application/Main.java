@@ -369,19 +369,27 @@ public class Main extends Application {
 		double buttonStartY = 0;
 		double lineStartX = 0;
 		double lineStartY = 0;
+		double length = 0;
 
 		int numGames = 0;
-		if (rounds.size() < 1) {
+		if (rounds.size() < 0) {
 			return;
+		}else if(rounds.size() == 0) {
+			addChallengerBox(winner.name, ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2)), ((sceneHeight/2)+(challengerCellHeight/2)), 1, null);
 		} else if (rounds.size()  == 1) {
 			x = roundXGap;
 			y = challengerBoxYGap;
 			currentGame = rounds.get(0).games.get(0);
-			addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger1);
+			addChallengerBox(currentGame.challenger1.name, x, y, 2, currentGame.challenger1);
 			x = sceneWidth - roundXGap - (challengerCellWidth + challengerScoreCellWidth);
 			y = challengerBoxYGap;
-			addChallengerBox("Challenger "+currentGame.gameNumber, x, y, 2, currentGame.challenger1);
-		} else {
+			addChallengerBox(currentGame.challenger2.name, x, y, 2, currentGame.challenger2);
+			lineStartX = currentGame.challenger1.startX + (challengerCellWidth + challengerScoreCellWidth);
+			lineStartY = currentGame.challenger1.startY + challengerCellHeight/2;
+			length = currentGame.challenger2.startX - currentGame.challenger1.startX - challengerCellWidth-challengerScoreCellWidth;
+			addLine(lineStartX,lineStartY, 1,length);
+			addLine(lineStartX + length/2, lineStartY, 2, challengerCellHeight/2+challengerBoxYGap);
+		}else {
 
 			for(Round r:rounds) {		
 				numGames =  r.games.size();
