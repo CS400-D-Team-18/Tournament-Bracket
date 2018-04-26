@@ -1,3 +1,21 @@
+////////////////////////////////////////////////////////////////////////////
+// Semester:         CS400 Spring 2018
+// PROJECT:          JavaFX Tournament Bracket
+// FILES:            Main.java
+//                   Challenger.java
+//                   Game.java
+//                   Round.java
+//
+// THIS FILE:        Game.java
+// USER:             YOU-REN(Joyce) FANG,      yfang57@wisc.edu 
+//                   AKHILA JACOB,             ajacob5@wisc.edu 
+//                   RENG-HUNG(William) SHIH,  rshih2@wisc.edu 
+//
+// Instructor:       Deb Deppeler (deppeler@cs.wisc.edu)
+// Bugs:             no known bugs, but not complete either
+//
+// Due Date:         May 3 before 10 pm
+//////////////////////////// 80 columns wide //////////////////////////////////
 package application;
 
 import javafx.scene.control.Button;
@@ -59,5 +77,16 @@ public class Game {
 			childGameChallenger.startX = challenger1.startX - (challengerCellWidth + roundXGap);
 		}
 		childGameChallenger.startY = challenger1.startY + challengerCellHeight +  ((challenger2.startY - challenger1.startY - challengerCellHeight))/2 - (challengerCellHeight/2);
+	}
+
+
+	/**
+	 * Get current game number
+	 * (Added by Joyce)
+	 * 
+	 * @return gameNumber + 1
+	 */
+	public int getGameName() {
+		return this.gameNumber+1;
 	}
 }

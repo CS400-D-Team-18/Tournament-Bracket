@@ -1,6 +1,26 @@
+////////////////////////////////////////////////////////////////////////////
+// Semester:         CS400 Spring 2018
+// PROJECT:          JavaFX Tournament Bracket
+// FILES:            Main.java
+//                   Challenger.java
+//                   Game.java
+//                   Round.java
+//
+// THIS FILE:        Main.java
+// USER:             YOU-REN(Joyce) FANG,      yfang57@wisc.edu 
+//                   AKHILA JACOB,             ajacob5@wisc.edu 
+//                   RENG-HUNG(William) SHIH,  rshih2@wisc.edu 
+//
+// Instructor:       Deb Deppeler (deppeler@cs.wisc.edu)
+// Bugs:             no known bugs, but not complete either
+//
+// Due Date:         May 3 before 10 pm
+//////////////////////////// 80 columns wide //////////////////////////////////
 package application;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -25,9 +45,12 @@ import javafx.scene.shape.Line;
 public class Main extends Application {
 
 	//Game management variables
-	ArrayList<String> nameList;
-	ArrayList<Challenger> challangers;
-	ArrayList<Round> rounds;	
+	static ArrayList<String> nameList;         //Change it to static by Joyce
+	static ArrayList<Challenger> challengers;  //Change it to static by Joyce
+	ArrayList<Round> rounds;
+	ArrayList<Game> games;  // Added by Joyce
+	int numRounds;          // Added by Joyce
+	int numGames;           // Added by Joyce
 
 	//Layout calculation variables
 	int numChallengers;
@@ -41,6 +64,7 @@ public class Main extends Application {
 	Color challengerScoreCellFGColor = Color.CADETBLUE;
 	Color challengerScoreCellBGColor = Color.WHITE;
 	Color lineColor = Color.WHITE;
+	TextField challengerScoreCell;
 
 	double challengerCellWidth = 100;
 	double challengerCellHeight = 25;
@@ -66,11 +90,11 @@ public class Main extends Application {
 
 
 	//UI instances
-	Pane root;	
+	static Pane root;	
 
 	//Computing layout
 	private void computeChallengerColumnArray(){
-		//TO DO: handle numChallengers = 0
+		//TODO: handle numChallengers = 0
 
 		int currentNum = numChallengers;
 		int i = 0;
@@ -123,186 +147,130 @@ public class Main extends Application {
 		}
 	}
 
-	private void gameManagement16()
-	{
-		Challenger c1 = new Challenger("Challenger 1");
-		Challenger c2 = new Challenger("Challenger 16");
-		Challenger c3 = new Challenger("Challenger 8");
-		Challenger c4 = new Challenger("Challenger 9");
-		Challenger c5 = new Challenger("Challenger 4");
-		Challenger c6 = new Challenger("Challenger 13");
-		Challenger c7 = new Challenger("Challenger 5");
-		Challenger c8 = new Challenger("Challenger 12");
-		Challenger c9 = new Challenger("Challenger 2");
-		Challenger c10 = new Challenger("Challenger 15");
-		Challenger c11 = new Challenger("Challenger 7");
-		Challenger c12 = new Challenger("Challenger 10");
-		Challenger c13 = new Challenger("Challenger 3");
-		Challenger c14 = new Challenger("Challenger 14");
-		Challenger c15 = new Challenger("Challenger 6");
-		Challenger c16 = new Challenger("Challenger 11");
+	public void gameManagement() {
+		// (1)Set numRound, numGame depends on numChallenger 
+		setNumberInfo();
 
-		Game g1 = new Game(1);
-		Game g2 = new Game(2);
-		Game g3 = new Game(3);
-		Game g4 = new Game(4);		
-		Game g5 = new Game(5);
-		Game g6 = new Game(6);		
-		Game g7 = new Game(7);
-		Game g8 = new Game(8);
-		Game g9 = new Game(9);
-		Game g10 = new Game(10);
-		Game g11 = new Game(11);
-		Game g12 = new Game(12);		
-		Game g13 = new Game(13);
-		Game g14 = new Game(14);		
-		Game g15 = new Game(15);
+		// (2)Set each game
+		games = new ArrayList<Game>();
+		ArrayList<Integer> gList = new ArrayList<Integer>(); // compute each round has how many games
+		int g = this.numChallengers;
+		for (int i = 0; i < this.numRounds; i++) {
+			g = g / 2;
+			gList.add(g);
+		}
+		// (3)Add each game to ArrayList games
+		for (int i = 0; i < this.numGames; i++) {
+			Game gn = new Game(i);
+			games.add(gn);
+		}
+		setInitialGame(gList);
 
-		g1.updateGameInfo(c1, c2, g9, 1);
-		g2.updateGameInfo(c3, c4, g9, 2);
-		g3.updateGameInfo(c5, c6, g10, 1);
-		g4.updateGameInfo(c7, c8, g10, 2);
-		g5.updateGameInfo(c9, c10, g11, 1);
-		g6.updateGameInfo(c11, c12, g11, 2);
-		g7.updateGameInfo(c13, c14, g12, 1);
-		g8.updateGameInfo(c15, c16, g12, 2);
-
-		g9.updateGameInfo(null, null, g13, 1);
-		g10.updateGameInfo(null, null, g13, 2);
-		g11.updateGameInfo(null, null, g14, 1);
-		g12.updateGameInfo(null, null, g14, 2);
-
-		g13.updateGameInfo(null, null, g15, 1);
-		g14.updateGameInfo(null, null, g15, 2);
-
-		g15.updateGameInfo(null, null, null, 0);
-
-		Round r1 = new Round(1,"1ST ROUND");
-		Round r2 = new Round(2,"QUARTER-FINAL");
-		Round r3 = new Round(3,"SEMI-FINAL");
-		Round r4 = new Round(4,"FINAL");
-
-		r1.addGame(g1);
-		r1.addGame(g2);
-		r1.addGame(g3);
-		r1.addGame(g4);
-		r1.addGame(g5);
-		r1.addGame(g6);
-		r1.addGame(g7);
-		r1.addGame(g8);
-
-		r2.addGame(g9);
-		r2.addGame(g10);
-		r2.addGame(g11);
-		r2.addGame(g12);
-
-		r3.addGame(g13);
-		r3.addGame(g14);
-
-		r4.addGame(g15);
-
+		// (4)Set each round name and add each round to rounds
+		String[] roundNameList = { "CHAMPIONSHIP", "SEMI-FINAL", "QUARTER-FINAL", "1ST ROUND" };
 		rounds = new ArrayList<Round>();
-
-		rounds.add(r1);
-		rounds.add(r2);
-		rounds.add(r3);
-		rounds.add(r4);
+		int max = this.numRounds;
+		for (int i = this.numRounds; i > 0; i--) {
+			int r = max - i + 1;
+			Round rn = new Round(r, roundNameList[i - 1]);
+			rounds.add(rn);
+		}
+		
+		// (5)Add each game to correspond round
+		int gameIdx = 0;
+		for (int i = 0; i < this.numRounds; i++) {
+			for (int j = 0 ; j < gList.get(i); j++) {
+				
+				rounds.get(i).addGame(games.get(gameIdx + j));
+				
+			}
+			gameIdx += gList.get(i);
+		}
 	}
-
-	private void gameManagement8()
-	{
-		Challenger c1 = new Challenger("Challenger 1");
-		Challenger c2 = new Challenger("Challenger 2");
-		Challenger c3 = new Challenger("Challenger 3");
-		Challenger c4 = new Challenger("Challenger 4");
-		Challenger c5 = new Challenger("Challenger 5");
-		Challenger c6 = new Challenger("Challenger 6");
-		Challenger c7 = new Challenger("Challenger 7");
-		Challenger c8 = new Challenger("Challenger 8");
-
-		Game g1 = new Game(1);
-		Game g2 = new Game(2);
-		Game g3 = new Game(3);
-		Game g4 = new Game(4);		
-		Game g5 = new Game(5);
-		Game g6 = new Game(6);		
-		Game g7 = new Game(7);
-
-		g1.updateGameInfo(c1, c2, g5, 1);
-		g2.updateGameInfo(c3, c4, g5, 2);
-		g3.updateGameInfo(c5, c6, g6, 1);
-		g4.updateGameInfo(c7, c8, g6, 2);
-
-		g5.updateGameInfo(null, null, g7, 1);
-		g6.updateGameInfo(null, null, g7, 2);
-
-		g7.updateGameInfo(null, null, null, 0);
-
-		Round r1 = new Round(1,"QUARTER-FINAL");
-		Round r2 = new Round(2,"SEMI-FINAL");
-		Round r3 = new Round(3,"FINAL");
-
-		r1.addGame(g1);
-		r1.addGame(g2);
-		r1.addGame(g3);
-		r1.addGame(g4);
-
-		r2.addGame(g5);
-		r2.addGame(g6);
-
-		r3.addGame(g7);
-
-		rounds = new ArrayList<Round>();
-		rounds.add(r1);
-		rounds.add(r2);
-		rounds.add(r3);
+	
+	/**
+	 * Number of rounds = log2(numChallengers)
+	 * 
+	 * @param n Number of Challengers
+	 * @param base Always use 2 here
+	 * @return x Number of rounds
+	 */
+	private int log(int n, int base) {
+		int x = (int)(Math.log(n) / Math.log(base));
+		return x;
 	}
-
-	private void gameManagement4()
-	{
-		Challenger c1 = new Challenger("Challenger 1");
-		Challenger c2 = new Challenger("Challenger 2");
-		Challenger c3 = new Challenger("Challenger 3");
-		Challenger c4 = new Challenger("Challenger 4");
-
-		Game g1 = new Game(1);
-		Game g2 = new Game(2);
-		Game g3 = new Game(3);
-
-		g1.updateGameInfo(c1, c2, g3, 1);
-		g2.updateGameInfo(c3, c4, g3, 2);
-
-		g3.updateGameInfo(null, null, null, 0);
-
-		Round r1 = new Round(1,"SEMI-FINAL");
-		Round r2 = new Round(2,"FINAL");
-
-		r1.addGame(g1);
-		r1.addGame(g2);
-		r2.addGame(g3);
-
-		rounds = new ArrayList<Round>();
-		rounds.add(r1);
-		rounds.add(r2);
+	
+	/**
+	 * Set the numRounds, numGames depends on numChallengers
+	 */
+	private void setNumberInfo() {	
+		if (this.numChallengers > 16 ) {
+			System.out.println("We don't provide Tournament Bracket over 16 challengers.");
+		} else {
+			this.numRounds = log(this.numChallengers, 2);
+			this.numGames = this.numChallengers -1;
+			System.out.println("numRounds =" + this.numRounds + ", numGames = "+ this.numGames);
+		}
 	}
-
-	private void gameManagement2()
-	{
-		Challenger c1 = new Challenger("Challenger 1");
-		Challenger c2 = new Challenger("Challenger 2");
-
-		Game g1 = new Game(1);
-
-		g1.updateGameInfo(c1, c2, null, 0);
-
-		Round r1 = new Round(1,"FINAL");
-
-		r1.addGame(g1);
-
-		rounds = new ArrayList<Round>();
-		rounds.add(r1);
+	
+	/**
+	 * Use updateGameInfo() to set initial game, that means add each challenger to correct game.
+	 * 
+	 * @param gList The list contains each round should have how many games.
+	 */
+	private void setInitialGame(ArrayList<Integer> gList) {	
+		// TODO: Should use re-arranged challenger list instead of challengers!!! 
+		if (this.numRounds == 4) {
+			// 16 challengers, 15 games, 4 rounds
+			// gList = {8, 4, 2, 1}
+			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(8), 1);
+			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(8), 2);
+			games.get(2).updateGameInfo(challengers.get(4), challengers.get(5), games.get(9), 1);
+			games.get(3).updateGameInfo(challengers.get(6), challengers.get(7), games.get(9), 2);
+			games.get(4).updateGameInfo(challengers.get(8), challengers.get(9), games.get(10), 1);
+			games.get(5).updateGameInfo(challengers.get(10), challengers.get(11), games.get(10), 2);
+			games.get(6).updateGameInfo(challengers.get(12), challengers.get(13), games.get(11), 1);
+			games.get(7).updateGameInfo(challengers.get(14), challengers.get(15), games.get(11), 2);
+			
+			games.get(8).updateGameInfo(null, null, games.get(12), 1);
+			games.get(9).updateGameInfo(null, null, games.get(12), 2);
+			games.get(10).updateGameInfo(null, null, games.get(13), 1);
+			games.get(11).updateGameInfo(null, null, games.get(13), 2);
+			
+			games.get(12).updateGameInfo(null, null, games.get(14), 1);
+			games.get(13).updateGameInfo(null, null, games.get(14), 2);
+			
+			games.get(14).updateGameInfo(null, null, null, 0);		
+			
+		} else if (this.numRounds == 3) {
+			// gList = {4, 2, 1}
+			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(4), 1);
+			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(4), 2);
+			games.get(2).updateGameInfo(challengers.get(4), challengers.get(5), games.get(5), 1);
+			games.get(3).updateGameInfo(challengers.get(6), challengers.get(7), games.get(5), 2);
+			
+			games.get(4).updateGameInfo(null, null, games.get(6), 1);
+			games.get(5).updateGameInfo(null, null, games.get(6), 2);
+			
+			games.get(6).updateGameInfo(null, null, null, 0);
+			
+		} else if (this.numRounds == 2 ) {
+			// gList = {2, 1}
+			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), games.get(2), 1);
+			games.get(1).updateGameInfo(challengers.get(2), challengers.get(3), games.get(2), 2);
+			
+			games.get(2).updateGameInfo(null, null, null, 0);
+		
+		} else if (this.numRounds ==1 ) {
+			// gList = {1}
+			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), null, 0);
+			
+		} else {
+			return;
+		}
 	}
-
+	
+	
 	//UI draw helpers
 	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c)
 	{
@@ -370,6 +338,7 @@ public class Main extends Application {
 		this.root.getChildren().add(button);
 
 	}
+	
 	public void addLine(double x, double y, int linetype, double length)
 	{
 		Line ln = new Line();
@@ -508,24 +477,31 @@ public class Main extends Application {
 
 			root = new Pane();
 
+
 			//5. set the num of challengers from the challenger object
-			this.numChallengers = 16;
-
-
-			//6.call the game managemnet
+			this.numChallengers = this.nameList.size();
+			// TODO: After William's work, these code should be deleted
+			for (int i = 0; i < this.numChallengers; i++) {
+				Challenger c = new Challenger(nameList.get(i));
+				challengers.add(c);
+			}
+			
+			// 6.call the game management, set the 1st round in the beginning
 			//can call the method as gameManagement
-
-			this.gameManagement16();
-
-			//this.numChallengers = 8;
-			//this.gameManagement8();
-
-			//this.numChallengers = 4;
-			//this.gameManagement4();
-
-			//this.numChallengers = 2;
-			//this.gameManagement2();
-
+			gameManagement();
+		
+			for (int i = 0; i < this.numChallengers; i++) {
+				System.out.print(challengers.get(i).getCName()+", ");
+			}
+			System.out.println("");
+			for (int i = 0; i < this.numGames; i++) {
+				System.out.print("game"+games.get(i).getGameName()+", ");
+			}
+			System.out.println("");
+			for (int i = 0; i < this.numRounds; i++) {
+				System.out.print(rounds.get(i).getRoundName()+", ");
+			}
+			System.out.println("");
 			this.computeChallengerColumnArray();
 			this.computeSceneWidth();
 			this.drawBracket();
@@ -536,6 +512,13 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
+			// TODO: 7. get score input and decide who is champion
+			// call event handler when user press submit button
+			// get scores for two challengers 
+			//  - if only one score, show error message
+			//  - if tie, show error message
+			// assign winner to next round until champion game
+			// show top 3 challengers
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -543,7 +526,26 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		// 1. Code for reading file from the argument passed and store it in an arraylist of string- global --> nameList
-
+		String fileName = args[0];
+		File inputFile = null;
+		Scanner sc = null;
+		nameList = new ArrayList<String>();
+		root = new Pane();
+		challengers = new ArrayList<Challenger>();
+		try {
+			inputFile = new File(fileName);
+			sc = new Scanner(inputFile);
+			while(sc.hasNextLine()) {
+				String name = sc.nextLine().trim().replace("\t", "");
+				if ((!name.equals(null)) && (!name.equals(""))) {
+					nameList.add(name);
+				}
+			}
+			sc.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(-1);
+		}
 
 		launch(args);
 	}
