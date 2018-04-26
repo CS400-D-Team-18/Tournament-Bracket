@@ -153,6 +153,30 @@ public class Main extends Application {
 			sceneHeight = sceneMinHeight;
 		}
 	}
+	
+	/**
+	 * Show a error alert with header text when #challengers is over 16.
+	 * (Added by Joyce)
+	 */
+	private void showAlertWhenCNumberIsNotValid() {
+		Alert alertCNumber = new Alert(AlertType.ERROR);
+		alertCNumber.setTitle("Error Message");
+		alertCNumber.setHeaderText("Number of challengers is not valid.");
+		alertCNumber.setContentText("Please provide 1-16 challengers here. It should be power of 2.");
+		alertCNumber.showAndWait();
+	}
+	
+	/**
+	 * Show a error alert with header text when #challengers is 0 or less.
+	 * (Added by Joyce)
+	 */
+	private void showAlertWhenNoChallenger() {
+		Alert alertNoC = new Alert(AlertType.ERROR);
+		alertNoC.setTitle("Error Message");
+		alertNoC.setHeaderText("You don't provide any challenger.");
+		alertNoC.setContentText("Please provide 1-16 challengers here. It should be power of 2.");
+		alertNoC.showAndWait();
+	}
 
 	public void gameManagement() {
 		// (1)Set numRound, numGame depends on numChallenger 
@@ -542,6 +566,14 @@ public class Main extends Application {
 				System.out.print(rounds.get(i).getRoundName()+", ");
 			}
 			System.out.println("");
+			
+			// Show error message if challenger number is not valid.
+			if (this.numChallengers > 16) {
+				showAlertWhenCNumberIsNotValid();
+			} else if (this.numChallengers <= 0) {
+				showAlertWhenNoChallenger();
+			}
+			
 			this.computeChallengerColumnArray();
 			this.computeSceneWidth();
 			this.drawBracket();
