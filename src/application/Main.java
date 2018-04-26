@@ -178,6 +178,18 @@ public class Main extends Application {
 		alertNoC.setContentText("Please provide 1-16 challengers here. It should be power of 2.");
 		alertNoC.showAndWait();
 	}
+	
+	/**
+	 * Show a error alert with header text when user type in same scores in current game.
+	 * (Added by Joyce)
+	 */
+	private void showAlertWhenTie() {
+		Alert alertTie = new Alert(AlertType.ERROR);
+		alertTie.setTitle("Error Message");
+		alertTie.setHeaderText("Tied game.");
+		alertTie.setContentText("You typed in same scores for two challengers. Please type different scores here.");
+		alertTie.showAndWait();
+	}
 
 	public void gameManagement() {
 		// (1)Set numRound, numGame depends on numChallenger 
