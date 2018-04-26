@@ -265,7 +265,11 @@ public class Main extends Application {
 			// gList = {1}
 			games.get(0).updateGameInfo(challengers.get(0), challengers.get(1), null, 0);
 			
+		} else if (this.numRounds == 0) {
+			winner = challengers.get(0);
+			return;
 		} else {
+			this.numRounds = -1;
 			return;
 		}
 	}
