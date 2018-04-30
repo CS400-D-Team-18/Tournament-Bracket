@@ -25,14 +25,25 @@ public class Game {
 	int gameNumber;
 	Challenger challenger1;
 	Challenger challenger2;
+	//Variable indicates the child game to which the current game is pointing to
 	Game childGame;
+	//Variable indicates which challenger in the child game does the winner of the game corresponds to 
 	int childGameChallengerNumber;
 	Button gameScoreButton;
+	//Indicates if the game is complete and winner has been declared
+	boolean isComplete;
 	
 	public Game(int gameNumber) {
 		this.gameNumber = gameNumber;
 	}
 
+	/**
+	 * (Added by Akhila_Jacob)
+	 * @param challenger1
+	 * @param challenger2
+	 * @param childGame
+	 * @param childGameChallengerNumber
+	 */
 	public void updateGameInfo(Challenger challenger1, Challenger challenger2, Game childGame, int childGameChallengerNumber) {
 		if (challenger1 != null) {
 			this.challenger1 = challenger1;
@@ -48,14 +59,26 @@ public class Game {
 		this.childGameChallengerNumber = childGameChallengerNumber;
 	}
 	
+	/**
+	 * @return
+	 */
 	public Button getGameScoreButton() {
 		return gameScoreButton;
 	}
 
+	/**
+	 * @param gameScoreButton
+	 */
 	public void setGameScoreButton(Button gameScoreButton) {
 		this.gameScoreButton = gameScoreButton;
 	}
 
+	/**
+	 * Method assists in calculating the coordinates of the child game each time we create  a parent game
+	 * (Added by Akhila_Jacob)
+	 * @param isLeft
+	 * @param roundXGap
+	 */
 	public void updateChildGameChallengerCoordinates(boolean isLeft, double roundXGap)
 	{
 		Challenger childGameChallenger;
