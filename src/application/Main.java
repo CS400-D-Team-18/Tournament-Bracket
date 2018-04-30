@@ -20,6 +20,8 @@ package application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javafx.application.Application;
@@ -32,12 +34,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -58,12 +58,11 @@ public class Main extends Application {
 	//Layout calculation variables
 	int numChallengers;
 	int[] roundChallengerCountArray;
-	int[] roundNumberArray;
 
 	//Layout UI variables
 	Color sceneBGColor = Color.DARKGRAY;
 	Color challengerCellFGColor = Color.WHITE;
-	Color challengerCellBGColor = Color.BROWN;
+	Color challengerCellBGColor = Color.AQUAMARINE;
 	Color winnerCellBGColor = Color.KHAKI;
 	Color winnerCellTitleBGColor = Color.BURLYWOOD;
 	Color challengerScoreCellFGColor = Color.AQUAMARINE;
@@ -88,7 +87,9 @@ public class Main extends Application {
 
 	double challengerBoxYGap = 60;
 	double roundXGap = 50;
-
+	
+	
+	//Global variables to set the winner,firstRunnerUp & SecondRunnerUp
 	Label winnerCell;
 	Label firstRunnerUpCell;
 	Label secondRunnerUpCell;
@@ -96,13 +97,17 @@ public class Main extends Application {
 	Challenger firstRunnerUp;
 	Challenger secondRunnerUp;
 
-	//Layout management variables
-
+	//Map a button to each game ,so as to identify the game on each button click
+	HashMap<Integer, Button> buttonMap = new HashMap<Integer, Button>();
 
 	//UI instances
 	static Pane root;	
 
-	//Computing layout
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Computes the number of challengers to be kept in each round -this information
+	 * is then used to set the scene width and scene height of the UI
+	 */
 	private void computeChallengerColumnArray(){
 		//TODO: handle numChallengers = 0
 
@@ -117,33 +122,27 @@ public class Main extends Application {
 				counter++;
 			}
 			roundChallengerCountArray = new int[counter];
-			roundNumberArray = new int[counter];
-
+			//roundNumberArray = new int[counter];
 			currentNum = numChallengers;
 			i = 0;
 			while(currentNum > 1) {
 				roundChallengerCountArray[i] = currentNum;
-				roundNumberArray[i] = i+1;
+				//roundNumberArray[i] = i+1;
 				currentNum = currentNum/2;
 				i++;
 			}
 			roundChallengerCountArray[i] = 1;
-			roundNumberArray[i] = 0;
-			//			j = i  ;
-			//			for(;j>=0;j-- ,i++) {
-			//				challengerColumn[i] = challengerColumn[j];
-			//				roundArray[i] = roundArray[j];
-			//			}
-
+			//roundNumberArray[i] = 0;
 		}else {
 			roundChallengerCountArray = new int[1];
-			roundNumberArray = new int[1];
-		}
-		for(int k =0;k<roundNumberArray.length;k++) {
-			System.out.print(" "+roundNumberArray[k]);
+			//roundNumberArray = new int[1];
 		}
 	}
-
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Calculates the scene width depending on the number of challengers 
+	 * we need to add to UI
+	 */
 	private void computeSceneWidth(){
 		int x = 2*roundChallengerCountArray.length - 1 ;
 		sceneWidth = x*(challengerCellWidth+challengerScoreCellWidth) + (x+1)*roundXGap;
@@ -350,27 +349,33 @@ public class Main extends Application {
 	
 	
 	//UI draw helpers
-	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c,int type)
-	{
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Used to draw a challengerNameLabel and challengerScoreTextField
+	 * @param name
+	 * @param x
+	 * @param y
+	 * @param boxtype
+	 * @param c
+	 * @param type
+	 */
+	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c,int type){
 		TextField challengerScoreCell = null;
 		Label challengerCell = new Label();
-		if(type == 2 ) {
+		if(type == 2 || type == 4  || type == 5  || type == 6) {
 			challengerCell.setBackground(new Background(new BackgroundFill(winnerCellBGColor, CornerRadii.EMPTY, Insets.EMPTY)));	
 		}else if(type == 3){
 			challengerCell.setBackground(new Background(new BackgroundFill(winnerCellTitleBGColor, CornerRadii.EMPTY, Insets.EMPTY)));	
 		}else {
 			challengerCell.setBackground(new Background(new BackgroundFill(challengerCellBGColor, CornerRadii.EMPTY, Insets.EMPTY)));
 		}
-
 		challengerCell.setAlignment(Pos.CENTER);
 		challengerCell.setText(name);
-		if (boxtype == 1)
-		{
+		if (boxtype == 1){
 			challengerCell.setMinSize(challengerCellWidth+challengerScoreCellWidth, challengerCellHeight);
 			challengerCell.setMaxSize(challengerCellWidth+challengerScoreCellWidth, challengerCellHeight);
 		}
-		else
-		{
+		else{
 			challengerCell.setMinSize(challengerCellWidth, challengerCellHeight);
 			challengerCell.setMaxSize(challengerCellWidth, challengerCellHeight);
 			challengerScoreCell = new TextField();
@@ -380,12 +385,14 @@ public class Main extends Application {
 			//challengerScoreCell.setTextFill(challengerScoreCellFGColor);
 			challengerScoreCell.setAlignment(Pos.CENTER);
 			challengerScoreCell.setPromptText("Score");
+			if( name ==  null) {
+				challengerScoreCell.setDisable(true);
+			}
 		}
 		challengerCell.setLayoutX(x);
 		challengerCell.setLayoutY(y);	
 		this.root.getChildren().add(challengerCell);
-		if (challengerScoreCell != null)
-		{
+		if (challengerScoreCell != null){
 			challengerScoreCell.setLayoutX(x+challengerCellWidth);
 			challengerScoreCell.setLayoutY(y);
 			this.root.getChildren().add(challengerScoreCell);
@@ -395,36 +402,250 @@ public class Main extends Application {
 			c.startY = y;
 			c.challengerCell = challengerCell;
 			c.challengerScoreCell = challengerScoreCell;
-		} else
-		{
-			this.winnerCell = challengerCell;
+		} 
+		if(type == 4) {
+		this.winnerCell = challengerCell;	
+		}else if( type == 5) {
+			this.firstRunnerUpCell = challengerCell;	
+		}else if ( type == 6) {
+			this.secondRunnerUpCell = challengerCell;	
 		}
 	}
+	
+	//Game propagation helpers
+	
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Returns the game corresponding to Game Number
+	 * @param gameNumber
+	 * @return
+	 */
+	public Game getGameFromGameNumber(int gameNumber) {
+		for(Round r : rounds) {
+			for(Game game : r.games) {
+				if (game.gameNumber == gameNumber) {
+					return game;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Checks if a score has been entered for each challenger corresponding to a game and validates the value
+	 * If valid then we consider the game to be complete.
+	 * @param currentGame
+	 * @return
+	 */
+	public boolean isGameComplete(Game currentGame) {
+		//TO DO
+		// + THIS SHOULD CHECK BOTH CHALLENGER SCORES AND THROW ERRORS
+		// + IF NOT VALID, THEN RETURN FALSE
+		
+		// IF VALID, THIS SHOULD UPDATE CHALLENGER SCORES AND RETURN TRUE
+		// THROW ERROR IF CHALLENGER SCORES ARE THE SAME
+		currentGame.challenger1.score = Double.parseDouble(currentGame.challenger1.challengerScoreCell.getText());
+		currentGame.challenger2.score = Double.parseDouble(currentGame.challenger2.challengerScoreCell.getText());
+		currentGame.isComplete = true;
+		return true;
+	}
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Method used to disable the Label,Button and textField corresponding to a round once
+	 * the round is complete
+	 * @param r
+	 */
+	public void disableRound(Round r) {
+		for(Game g : r.games) {
+			g.challenger1.challengerScoreCell.setDisable(true);
+			g.challenger2.challengerScoreCell.setDisable(true);
+			g.gameScoreButton.setDisable(true);
+			//g.gameScoreButton.setVisible(false);
+		}
+	}
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Method used to enable the Label,Button and textField corresponding to the next round
+	 * once the present round is complete
+	 * @param r
+	 */
+	public void enableRound(Round r) {
+		for(Game g : r.games) {
+			g.challenger1.challengerScoreCell.setDisable(false);
+			g.challenger2.challengerScoreCell.setDisable(false);
+			g.gameScoreButton.setDisable(false);
+			//g.gameScoreButton.setVisible(true);
+		}
+	}
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * 1.Check if the current round is complete
+	 * 2.If round not complete then no further steps to be done else
+	 * 3.If the last round is the one that is completed currently then we need to update the champion,FirstRunnerUp and Second RunnerUp
+	 * 4.Else we just need to disable present round and enable next round
+	 */
+	public void updateGameProgress() {
+		boolean roundComplete;
+		Round nextRound;
+		int lastRoundNumber = 0;
+		boolean lastRoundComplete = false;
+		int totalRounds = rounds.size();
+		Round tempRound;
+		Game tmpGame ;
+		for(Round r : rounds) {
+			if (!r.isComplete) {
+				roundComplete = true;
+				for(Game g : r.games) {
+					if (!g.isComplete) {
+						roundComplete = false;
+						break;
+					}
+				}
+				if (roundComplete) {
+					r.isComplete = true;
+					disableRound(r);
+					lastRoundNumber = r.roundNumber;
+					lastRoundComplete = true;
+					break;
+				}
+			}
+		}
+		if (!lastRoundComplete) {
+			return;
+		}
+		if (lastRoundNumber == rounds.size()) {
+			//UPDATE WINNER
+
+			//Updating only the champion and first runnerup
+			tempRound = rounds.get(totalRounds -1 );	
+			tmpGame = tempRound.games.get(0);
+			if(tmpGame.challenger1.score > tmpGame.challenger2.score) {
+				winner = tmpGame.challenger1;	
+				firstRunnerUp = tmpGame.challenger2;
+			}else {
+				winner = tmpGame.challenger2;	
+				firstRunnerUp = tmpGame.challenger1;
+			}
+			//Case where we can also find the second runner up
+			double maxScore = 0;
+			if( totalRounds-2 >= 0) {
+				tempRound = rounds.get(totalRounds -2 );	
+				for(Game g : tempRound.games) {
+					if(!winner.name.equals(g.challenger1.name)   && !firstRunnerUp.name.equals(g.challenger1.name)  ) {
+						if(g.challenger1.score > maxScore) {
+							maxScore = g.challenger1.score;	
+							secondRunnerUp = g.challenger1;
+						}
+					}
+					if(!winner.name.equals(g.challenger2.name)   && !firstRunnerUp.name.equals(g.challenger2.name)  ) {
+						if(g.challenger2.score > maxScore) {
+							maxScore = g.challenger2.score;	
+							secondRunnerUp = g.challenger1;
+						}
+					}
+				}
+			}
+			
+			//set the textfeild 
+			winnerCell.setText(winner.name);
+			firstRunnerUpCell.setText(firstRunnerUp.name);
+			if(secondRunnerUp != null) {
+				secondRunnerUpCell.setText(secondRunnerUp.name);	
+			}
+		} else {
+			nextRound = rounds.get(lastRoundNumber);
+			enableRound(nextRound);
+		}
+	}
+	/**
+	 * (Added by Akhila_Jacob)
+	 * 1.Check if the current game is complete
+	 * 2.If complete then propogate the winner to the correct challenger of the 
+	 * child game
+	 */
+	public void submitGameScore(int gameNumber) {
+		Game currentGame = getGameFromGameNumber(gameNumber);
+		Challenger childChallenger;
+		Challenger winningChallenger;
+		if (currentGame == null) {
+			return;
+		}
+		if (!isGameComplete(currentGame)) {
+			return;
+		}
+		
+		if (currentGame.childGame != null) {
+			if (currentGame.childGameChallengerNumber == 1) {
+				childChallenger = currentGame.childGame.challenger1;
+			} else {
+				childChallenger = currentGame.childGame.challenger2;
+			}
+			if (currentGame.challenger1.score > currentGame.challenger2.score) {
+				winningChallenger = currentGame.challenger1;
+			} else {
+				winningChallenger = currentGame.challenger2;
+			}
+			childChallenger.name = winningChallenger.name;
+			childChallenger.challengerCell.setText(childChallenger.name);
+		}
+		
+		updateGameProgress();
+	}
+	
 	//UI draw helpers
-	public void addGameScoreButton(int gameNum,double x, double y,Game g){
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Method to add buttons for each game
+	 * @param gameNum
+	 * @param x
+	 * @param y
+	 * @param g
+	 * @param roundNumber
+	 */
+	public void addGameScoreButton(int gameNum,double x, double y,Game g,int roundNumber){
 		Button button = new Button();
 		button.setText("Submit");
 		button.setMinSize(gameButtonWidth, gameButtonHeight);
 		button.setMaxSize(gameButtonWidth, gameButtonHeight);
 
 		button.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				//System.out.println("The username is: " + usernameInput.getText());
-				//System.out.println("The password is: " + passwordInput.getText());
+				int gameNumber = 0;
+				for(Map.Entry<Integer, Button> entry :buttonMap.entrySet()) {
+					if(entry.getValue() == event.getSource()) {
+						gameNumber = entry.getKey();
+						break;
+					}	
+				}
+				submitGameScore(gameNumber);
 			}
 		});
 		button.setLayoutX(x);
 		button.setLayoutY(y);	
+		if( roundNumber!= 1) {
+			button.setDisable(true);	
+		}
 		g.setGameScoreButton(button);
+		buttonMap.put(gameNum, button);
 		this.root.getChildren().add(button);
 
 	}
-	
-	public void addLine(double x, double y, int linetype, double length)
-	{
+
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Method to add lined to indicate game propogation
+	 * @param x
+	 * @param y
+	 * @param linetype
+	 * @param length
+	 */
+	public void addLine(double x, double y, int linetype, double length){
 		Line ln = new Line();
 		ln.setStrokeWidth(lineThickness);
 		ln.setStroke(lineColor);
@@ -442,7 +663,11 @@ public class Main extends Application {
 		}
 		this.root.getChildren().add(ln);
 	}
-
+	
+	/**
+	 * (Added by Akhila_Jacob)
+	 * Method contains the logic for drawing the tournament bracket
+	 */
 	public void drawBracket(){
 		double x;
 		double y;
@@ -457,10 +682,16 @@ public class Main extends Application {
 
 		int numGames = 0;
 		if (rounds.size() < 0) {
+			//Case when no input is passed from user  i.e no round
 			return;
 		}else if(rounds.size() == 0) {
-			addChallengerBox(winner.name, ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2)), ((sceneHeight/2)+(challengerCellHeight/2)), 1, null,1);
+			//Case when a single challenger is present ,so here the single person is winner
+			x = ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2));
+			y =  ((sceneHeight/2)+(challengerCellHeight/2));
+			addChallengerBox(winner.name,x,y, 1, null,4);
+			addChallengerBox("Champion", x,y - challengerCellHeight, 1, winner,3);
 		} else if (rounds.size()  == 1) {
+			//Case when there is only two challengers present
 			x = roundXGap;
 			y = challengerBoxYGap;
 			currentGame = rounds.get(0).games.get(0);
@@ -474,17 +705,26 @@ public class Main extends Application {
 			addLine(lineStartX,lineStartY, 1,length);
 			buttonStartX = ((sceneWidth/2) - gameButtonWidth/2);
 			buttonStartY =  lineStartY - gameButtonHeight/2;
-			addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+			addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame,1);
 			addLine(lineStartX + length/2, buttonStartY +gameButtonHeight, 2, challengerCellHeight/2+challengerBoxYGap);
-			addChallengerBox("Winner", ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2)), ((sceneHeight/2)+(challengerCellHeight/2))+30, 1, winner,2);
+			
+			x =  ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2));
+			y = ((sceneHeight/2)+(challengerCellHeight/2))+30;
+			addChallengerBox("Champion", x,y, 1, winner,3);
+			addChallengerBox(null, x ,y+challengerCellHeight, 1, winner,4);
+			addChallengerBox("FirstRunnerUp",x - roundXGap -challengerCellWidth -challengerScoreCellWidth, y, 1, null,3);
+			addChallengerBox(null, x - roundXGap-challengerCellWidth -challengerScoreCellWidth , y+challengerCellHeight, 1, firstRunnerUp,5);
 
 		}else {
-
+			//Case when there are multiple rounds
 			for(Round r:rounds) {		
 				numGames =  r.games.size();
 				if (r.roundNumber == 1) {
+					//Only for the first round we know the challenger names and that is drawn at the start
+					//At the same the start locations of the child game is also computed 
 					x = roundXGap;
 					y = challengerBoxYGap;
+					//Half of the game is drawn in the left
 					for( i = 0; i<numGames/2; i++) {
 						currentGame = r.games.get(i);
 						addChallengerBox(currentGame.challenger1.name, x, y, 2, currentGame.challenger1,1);
@@ -494,7 +734,8 @@ public class Main extends Application {
 						currentGame.updateChildGameChallengerCoordinates(true, roundXGap);		
 					}
 					x = sceneWidth - roundXGap - (challengerCellWidth + challengerScoreCellWidth);
-					y = challengerBoxYGap;				
+					y = challengerBoxYGap;	
+					//The other half is drawn in the right
 					for(i = numGames/2; i<numGames; i++) {
 						currentGame = r.games.get(i);
 						addChallengerBox(currentGame.challenger1.name, x, y, 2, currentGame.challenger1,1);
@@ -504,6 +745,7 @@ public class Main extends Application {
 						currentGame.updateChildGameChallengerCoordinates(false, roundXGap);
 					}
 				} else {
+					//All round except the first round is drawn here
 					for(i = 0; i<numGames; i++) {
 						if (i < numGames/2) {
 							isLeft = true;
@@ -518,7 +760,7 @@ public class Main extends Application {
 					}
 				}
 			}
-
+			//Next we add the buttons corresponding to each game
 			for(Round r:rounds) {		
 				numGames =  r.games.size();
 				if (numGames > 1 ) {
@@ -530,7 +772,7 @@ public class Main extends Application {
 
 						buttonStartX = currentGame.challenger1.startX + ((challengerCellWidth + challengerScoreCellWidth)/2) - gameButtonWidth/2;
 						buttonStartY = currentGame.challenger1.startY +(currentGame.challenger2.startY  - currentGame.challenger1.startY )/2 +challengerCellHeight	- gameButtonHeight;
-						addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+						addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame,r.roundNumber);
 
 						if( i < numGames/2) {
 							addLine(buttonStartX + gameButtonWidth,buttonStartY + gameButtonHeight/2, 1,(challengerScoreCellWidth +challengerCellWidth)/2 +roundXGap-gameButtonWidth/2);
@@ -548,19 +790,20 @@ public class Main extends Application {
 
 					buttonStartX = ((sceneWidth/2) - gameButtonWidth/2);
 					buttonStartY =  sceneHeight/2 - gameButtonHeight/2;
-					addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame);
+					addGameScoreButton(currentGame.gameNumber,buttonStartX,buttonStartY,currentGame,r.roundNumber);
 					addLine(buttonStartX+gameButtonWidth/2, buttonStartY+gameButtonHeight, 2, challengerCellHeight/2+30);
 				}
 			}
+			//Add the UI units to display the champion,firstRunnerUp and SeconRunnerUp
 			x = ((sceneWidth/2)-((challengerCellWidth + challengerScoreCellWidth)/2));
 			y = ((sceneHeight/2)+(challengerCellHeight/2))+30;
 			addChallengerBox("Winner",x, y, 1, null,3);
-			addChallengerBox("Winner name ", x , y+challengerCellHeight, 1, winner,2);
+			addChallengerBox(null, x , y+challengerCellHeight, 1, winner,4);
 			if(rounds.size() >= 2) {
 				addChallengerBox("FirstRunnerUp",x - roundXGap -challengerCellWidth -challengerScoreCellWidth, y, 1, null,3);
-				addChallengerBox("Winner name ", x - roundXGap-challengerCellWidth -challengerScoreCellWidth , y+challengerCellHeight, 1, firstRunnerUp,2);
+				addChallengerBox(null, x - roundXGap-challengerCellWidth -challengerScoreCellWidth , y+challengerCellHeight, 1, firstRunnerUp,5);
 				addChallengerBox("SecondRunnerUp",x + roundXGap +challengerCellWidth +challengerScoreCellWidth, y, 1, null,3);
-				addChallengerBox("Winner name ", x + roundXGap+challengerCellWidth +challengerScoreCellWidth , y+challengerCellHeight, 1, secondRunnerUp,2);
+				addChallengerBox(null, x + roundXGap+challengerCellWidth +challengerScoreCellWidth , y+challengerCellHeight, 1, secondRunnerUp,6);
 			}
 
 		}
@@ -621,6 +864,10 @@ public class Main extends Application {
 			primaryStage.setTitle("Tournament Bracket");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			
+			
+			
 
 			// TODO: 7. get score input and decide who is champion
 			// call event handler when user press submit button
