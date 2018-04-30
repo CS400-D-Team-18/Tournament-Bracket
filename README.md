@@ -5,7 +5,7 @@
   * Show top 3 challengers using table (or labels, whatever is suitable here) with color other then brown. -Akhila (done)
   * Handle the submit button when user type score and press submit button (Main.class, Event handler). -Everyone 
 * Main class
-  * 2.3.4.: William 
+  * 2.3.4.: William (3 not yet)
   * 1.5.6.: Joyce    (2018/04/25 finished)
   
 # Milestone2: Java FX GUI interface at start 
