@@ -192,6 +192,24 @@ public class Main extends Application {
 		alertTie.showAndWait();
 	}
 	
+	private void showAlertWhenScoreIsEmpty() {
+		Alert alertScoreIsEmpty = new Alert(AlertType.ERROR);
+		alertScoreIsEmpty.setTitle("Error Message");
+		alertScoreIsEmpty.setHeaderText("Score is empty.");
+		alertScoreIsEmpty.setContentText("Please enter scores for challengers before submit. "
+				+ "Also, pelase avoid tied game and negative numbers.");
+		alertScoreIsEmpty.showAndWait();
+	}
+	
+	private void showAlertWhenScoreNotValid() {
+		Alert alertScoreNotValid = new Alert(AlertType.ERROR);
+		alertScoreNotValid.setTitle("Error Message");
+		alertScoreNotValid.setHeaderText("Score is not valid.");
+		alertScoreNotValid.setContentText("Please enter only positive numbers for challenger score. "
+				+ "Also, pelase avoid tied game and negative numbers.");
+		alertScoreNotValid.showAndWait();
+	}
+	
 	
 	// 2.check if it is to power of 2
 	//validateNameList();
@@ -443,13 +461,30 @@ public class Main extends Application {
 		//TO DO
 		// + THIS SHOULD CHECK BOTH CHALLENGER SCORES AND THROW ERRORS
 		// + IF NOT VALID, THEN RETURN FALSE
-		
-		// IF VALID, THIS SHOULD UPDATE CHALLENGER SCORES AND RETURN TRUE
 		// THROW ERROR IF CHALLENGER SCORES ARE THE SAME
-		currentGame.challenger1.score = Double.parseDouble(currentGame.challenger1.challengerScoreCell.getText());
-		currentGame.challenger2.score = Double.parseDouble(currentGame.challenger2.challengerScoreCell.getText());
-		currentGame.isComplete = true;
-		return true;
+		// IF VALID, THIS SHOULD UPDATE CHALLENGER SCORES AND RETURN TRUE
+		String challenger1Score = currentGame.challenger1.challengerScoreCell.getText();
+		String challenger2Score = currentGame.challenger2.challengerScoreCell.getText();
+		if (challenger1Score == null || challenger2Score == null ||
+				challenger1Score.isEmpty() || challenger2Score.isEmpty()) { 
+			showAlertWhenScoreIsEmpty();
+			return false;
+			
+		} else if (!challenger1Score.matches("[0-9]+") || !challenger2Score.matches("[0-9]+")) {// please type positive number
+			showAlertWhenScoreNotValid();
+			return false;
+			
+		} else if (Double.parseDouble(challenger1Score) == Double.parseDouble(challenger2Score)) {
+			showAlertWhenTie();
+			return false;
+
+		}
+		else {
+			currentGame.challenger1.score = Double.parseDouble(challenger1Score);
+			currentGame.challenger2.score = Double.parseDouble(challenger2Score);
+			currentGame.isComplete = true;
+			return true;
+		}
 	}
 	
 	/**
