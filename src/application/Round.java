@@ -24,15 +24,24 @@ public class Round {
 	int roundNumber;
 	String roundName;
 	ArrayList<Game> games;
-	
+	//Indicates if all the games in the round are complete
+	boolean isComplete;
+	/**
+	 * (Added by Akhila_Jacob)
+	 * @param roundNumber
+	 * @param roundName
+	 */
 	public Round(int roundNumber, String roundName) {
 		this.roundNumber = roundNumber;
 		this.roundName = roundName;
 		this.games = new ArrayList<Game>();
 	}
 
-	public void addGame(Game g)
-	{
+	/**
+	 * (Added by Akhila_Jacob)
+	 * @param g
+	 */
+	public void addGame(Game g){
 		games.add(g);
 	}
 	
@@ -47,3 +56,4 @@ public class Round {
 	}
 	
 }
+
