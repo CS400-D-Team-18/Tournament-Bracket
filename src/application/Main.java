@@ -226,6 +226,48 @@ public class Main extends Application {
 		}
 		return true;
 	}
+	//3.Rearrange them in the order as per the seating
+	//reArrangeAccordingToRank();
+	public static void reArrangeAccordingToRank()
+	{
+		int TG = nameList.size();
+		
+        //Console.WriteLine("Number of games: {0}", TG);
+        int[] ind = new int[TG];
+        int[] playOrder = new int[TG+1];
+        
+        for (int i = 0; i <= (int)( Math.log((double)TG)/Math.log((double)2)); i++)       
+        {
+            for (int N = 1; N <= TG; ++N)
+            {
+                int myRank = (N - 1) / (int)Math.pow(2.0, (double)i) + 1;
+                ind[N - 1] += ((myRank % 4) / 2) * (int)Math.pow(2.0, ((int)( Math.log((double)TG)/Math.log((double)2)) - i - 1));
+            }
+        }
+        for (int N = 1; N <= TG; ++N)
+        {
+            playOrder[N]= ind[N - 1] + 1;
+            //Console.WriteLine("Team {0} plays game {1}", N, ind[N - 1] + 1);
+        }
+        ArrayList<String> nameListArranged = new ArrayList();
+        for(int i = 1; i < playOrder.length; i++)
+        {
+        		int index = searchPlayOrderRetArrayIndex( i, playOrder);
+        		nameListArranged.add(nameList.get(index - 1));
+        }
+		
+        nameList = nameListArranged;
+	
+	}
+	private static int searchPlayOrderRetArrayIndex( final int PlayOrder, final int[] PlayOrderArr )
+	{
+		for(int i=1; i < PlayOrderArr.length; i++ )
+		{
+			if(PlayOrderArr[i] == PlayOrder)
+				return i;
+		}
+		return 0;
+	}
 	
 	// 4.convert these namelist into an array;list of challenger objects
 	//createChallengerList();
@@ -854,7 +896,7 @@ public class Main extends Application {
 			System.out.println(valid);
 
 			//3.Rearrange them in the order as per the seating
-			//reArrangeAccordingToRank();
+			reArrangeAccordingToRank();
 
 			// 4.convert these namelist into an array;list of challenger objects
 			createChallengerList(nameList);
