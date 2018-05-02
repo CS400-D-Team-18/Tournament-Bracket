@@ -42,7 +42,11 @@ public class Challenger {
 		this.challengerCell = challengerCell;
 		this.challengerScoreCell = challengerScoreCell;
 	}
-	
+	/**
+	 * 
+	 * @param challenger
+	 * @return score of this challenger
+	 */
 	public double getScore(Challenger challenger) {
 		return this.score;
 	}
