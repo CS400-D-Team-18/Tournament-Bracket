@@ -70,9 +70,9 @@ public class Main extends Application {
 	Color lineColor = Color.WHITE;
 	TextField challengerScoreCell;
 
-	double challengerCellWidth = 100;
+	double challengerCellWidth = 90;
 	double challengerCellHeight = 25;
-	double challengerScoreCellWidth = 50;
+	double challengerScoreCellWidth = 45;
 	double challengerScoreCellHeight = 25;
 	double gameButtonWidth = 70 ;
 	double gameButtonHeight = 25;
@@ -196,8 +196,8 @@ public class Main extends Application {
 		Alert alertScoreIsEmpty = new Alert(AlertType.ERROR);
 		alertScoreIsEmpty.setTitle("Error Message");
 		alertScoreIsEmpty.setHeaderText("Score is empty.");
-		alertScoreIsEmpty.setContentText("Please enter scores for challengers before submit. "
-				+ "Also, pelase avoid tied game and negative numbers.");
+		alertScoreIsEmpty.setContentText("Please enter scores for both challengers before submit. "
+				+ "Also, please avoid tied game and negative numbers.");
 		alertScoreIsEmpty.showAndWait();
 	}
 	
@@ -206,7 +206,7 @@ public class Main extends Application {
 		alertScoreNotValid.setTitle("Error Message");
 		alertScoreNotValid.setHeaderText("Score is not valid.");
 		alertScoreNotValid.setContentText("Please enter only positive numbers for challenger score. "
-				+ "Also, pelase avoid tied game and negative numbers.");
+				+ "Also, plase avoid tied game and negative numbers.");
 		alertScoreNotValid.showAndWait();
 	}
 	
@@ -622,7 +622,7 @@ public class Main extends Application {
 					if(!winner.name.equals(g.challenger2.name)   && !firstRunnerUp.name.equals(g.challenger2.name)  ) {
 						if(g.challenger2.score > maxScore) {
 							maxScore = g.challenger2.score;	
-							secondRunnerUp = g.challenger1;
+							secondRunnerUp = g.challenger2;
 						}
 					}
 				}
@@ -984,3 +984,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+
