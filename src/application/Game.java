@@ -60,7 +60,7 @@ public class Game {
 	}
 	
 	/**
-	 * @return
+	 * @return gameScoreButton
 	 */
 	public Button getGameScoreButton() {
 		return gameScoreButton;
