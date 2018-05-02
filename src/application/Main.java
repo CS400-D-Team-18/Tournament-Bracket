@@ -93,9 +93,11 @@ public class Main extends Application {
 	Label winnerCell;
 	Label firstRunnerUpCell;
 	Label secondRunnerUpCell;
+	Label secondRunnerUpCellNext;
 	Challenger winner;
 	Challenger firstRunnerUp;
 	Challenger secondRunnerUp;
+	Challenger secondRunnerUpNext;
 
 	//Map a button to each game ,so as to identify the game on each button click
 	HashMap<Integer, Button> buttonMap = new HashMap<Integer, Button>();
@@ -429,7 +431,7 @@ public class Main extends Application {
 	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c,int type){
 		TextField challengerScoreCell = null;
 		Label challengerCell = new Label();
-		if(type == 2 || type == 4  || type == 5  || type == 6) {
+		if(type == 2 || type == 4  || type == 5  || type == 6 || type == 7) {
 			challengerCell.setBackground(new Background(new BackgroundFill(winnerCellBGColor, CornerRadii.EMPTY, Insets.EMPTY)));	
 		}else if(type == 3){
 			challengerCell.setBackground(new Background(new BackgroundFill(winnerCellTitleBGColor, CornerRadii.EMPTY, Insets.EMPTY)));	
@@ -476,8 +478,9 @@ public class Main extends Application {
 			this.firstRunnerUpCell = challengerCell;	
 		}else if ( type == 6) {
 			this.secondRunnerUpCell = challengerCell;	
-		}
-	}
+		}else if (type == 7) {
+			this.secondRunnerUpCellNext = challengerCell;
+		}}
 	
 	//Game propagation helpers
 	
@@ -623,12 +626,16 @@ public class Main extends Application {
 						if(g.challenger1.score > maxScore) {
 							maxScore = g.challenger1.score;	
 							secondRunnerUp = g.challenger1;
+						}else if (g.challenger1.score == maxScore) {
+							secondRunnerUpNext = g.challenger1;
 						}
 					}
 					if(!winner.name.equals(g.challenger2.name)   && !firstRunnerUp.name.equals(g.challenger2.name)  ) {
 						if(g.challenger2.score > maxScore) {
 							maxScore = g.challenger2.score;	
 							secondRunnerUp = g.challenger2;
+						}else if (g.challenger2.score == maxScore) {
+							secondRunnerUpNext = g.challenger2;
 						}
 					}
 				}
@@ -638,7 +645,12 @@ public class Main extends Application {
 			winnerCell.setText(winner.name);
 			firstRunnerUpCell.setText(firstRunnerUp.name);
 			if(secondRunnerUp != null) {
-				secondRunnerUpCell.setText(secondRunnerUp.name);	
+				secondRunnerUpCell.setText(secondRunnerUp.name);
+				if(secondRunnerUpNext != null) {
+					addChallengerBox(null, secondRunnerUpCell.getLayoutX() , secondRunnerUpCell.getLayoutY()+challengerCellHeight, 1, secondRunnerUpNext,7);	
+					secondRunnerUpCellNext.setText(secondRunnerUpNext.name);
+					
+				}
 			}
 		} else {
 			nextRound = rounds.get(lastRoundNumber);
