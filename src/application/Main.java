@@ -109,8 +109,6 @@ public class Main extends Application {
 	 * is then used to set the scene width and scene height of the UI
 	 */
 	private void computeChallengerColumnArray(){
-		//TODO: handle numChallengers = 0
-
 		int currentNum = numChallengers;
 		int i = 0;
 		int j = 0;
@@ -138,6 +136,7 @@ public class Main extends Application {
 			//roundNumberArray = new int[1];
 		}
 	}
+	
 	/**
 	 * (Added by Akhila_Jacob)
 	 * Calculates the scene width depending on the number of challengers 
@@ -192,6 +191,10 @@ public class Main extends Application {
 		alertTie.showAndWait();
 	}
 	
+	/**
+	 * Show error alert when user type empty scores.
+	 * (Added by Joyce)
+	 */
 	private void showAlertWhenScoreIsEmpty() {
 		Alert alertScoreIsEmpty = new Alert(AlertType.ERROR);
 		alertScoreIsEmpty.setTitle("Error Message");
@@ -201,11 +204,15 @@ public class Main extends Application {
 		alertScoreIsEmpty.showAndWait();
 	}
 	
+	/**
+	 * Show error alert when scores are not valid.
+	 * Handle negative scores, alphanumeric scores, floating point scores.
+	 */
 	private void showAlertWhenScoreNotValid() {
 		Alert alertScoreNotValid = new Alert(AlertType.ERROR);
 		alertScoreNotValid.setTitle("Error Message");
 		alertScoreNotValid.setHeaderText("Score is not valid.");
-		alertScoreNotValid.setContentText("Please enter only positive numbers for challenger score. "
+		alertScoreNotValid.setContentText("Please enter only positive integer for challenger score. "
 				+ "Also, plase avoid tied game and negative numbers.");
 		alertScoreNotValid.showAndWait();
 	}
@@ -226,6 +233,7 @@ public class Main extends Application {
 		}
 		return true;
 	}
+	
 	//3.Rearrange them in the order as per the seating
 	//reArrangeAccordingToRank();
 	public static void reArrangeAccordingToRank()
@@ -352,7 +360,6 @@ public class Main extends Application {
 	 * @param gList The list contains each round should have how many games.
 	 */
 	private void setInitialGame(ArrayList<Integer> gList) {	
-		// TODO: Should use re-arranged challenger list instead of challengers!!! 
 		if (this.numRounds == 4) {
 			// 16 challengers, 15 games, 4 rounds
 			// gList = {8, 4, 2, 1}
@@ -500,7 +507,6 @@ public class Main extends Application {
 	 * @return
 	 */
 	public boolean isGameComplete(Game currentGame) {
-		//TO DO
 		// + THIS SHOULD CHECK BOTH CHALLENGER SCORES AND THROW ERRORS
 		// + IF NOT VALID, THEN RETURN FALSE
 		// THROW ERROR IF CHALLENGER SCORES ARE THE SAME
@@ -516,14 +522,14 @@ public class Main extends Application {
 			showAlertWhenScoreNotValid();
 			return false;
 			
-		} else if (Double.parseDouble(challenger1Score) == Double.parseDouble(challenger2Score)) {
+		} else if (Integer.parseInt(challenger1Score) == Integer.parseInt(challenger2Score)) {
 			showAlertWhenTie();
 			return false;
 
 		}
 		else {
-			currentGame.challenger1.score = Double.parseDouble(challenger1Score);
-			currentGame.challenger2.score = Double.parseDouble(challenger2Score);
+			currentGame.challenger1.score = Integer.parseInt(challenger1Score);
+			currentGame.challenger2.score = Integer.parseInt(challenger2Score);
 			currentGame.isComplete = true;
 			return true;
 		}
@@ -941,18 +947,6 @@ public class Main extends Application {
 			primaryStage.setTitle("Tournament Bracket");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
-			
-			
-			
-
-			// TODO: 7. get score input and decide who is champion
-			// call event handler when user press submit button
-			// get scores for two challengers 
-			//  - if only one score, show error message
-			//  - if tie, show error message
-			// assign winner to next round until champion game
-			// show top 3 challengers
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -984,4 +978,3 @@ public class Main extends Application {
 		launch(args);
 	}
 }
-
