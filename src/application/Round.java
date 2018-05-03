@@ -26,20 +26,23 @@ public class Round {
 	ArrayList<Game> games;
 	//Indicates if all the games in the round are complete
 	boolean isComplete;
+	
 	/**
 	 * (Added by Akhila_Jacob)
-	 * @param roundNumber
-	 * @param roundName
+	 * Assign roundNumber, roundName and create new list of game for this round
+	 * @param roundNumber Number of this round
+	 * @param roundName Name of this round
 	 */
 	public Round(int roundNumber, String roundName) {
 		this.roundNumber = roundNumber;
 		this.roundName = roundName;
 		this.games = new ArrayList<Game>();
 	}
-
+	
 	/**
 	 * (Added by Akhila_Jacob)
-	 * @param g
+	 * Add game g in game list
+	 * @param g The game we want to add 
 	 */
 	public void addGame(Game g){
 		games.add(g);
