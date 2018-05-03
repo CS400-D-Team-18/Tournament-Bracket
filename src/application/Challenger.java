@@ -38,13 +38,19 @@ public class Challenger {
 		this.score = 0;
 	}
 	
+	/**
+	 * Update the UI information for this challenger
+	 * @param challengerCell of current challenger
+	 * @param challengerScoreCell of current challenger
+	 */
 	public void updateChallengerUIInfo(Label challengerCell, TextField challengerScoreCell)	{
 		this.challengerCell = challengerCell;
 		this.challengerScoreCell = challengerScoreCell;
 	}
+	
 	/**
-	 * 
-	 * @param challenger
+	 * Get this challenger's score
+	 * @param challenger Current challenger
 	 * @return score of this challenger
 	 */
 	public double getScore(Challenger challenger) {
