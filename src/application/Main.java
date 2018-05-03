@@ -19,6 +19,7 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,6 +105,7 @@ public class Main extends Application {
 
 	//UI instances
 	static Pane root;	
+	static boolean fileInvalid = false;
 
 	/**
 	 * (Added by Akhila_Jacob)
@@ -178,6 +180,14 @@ public class Main extends Application {
 		alertNoC.setTitle("Error Message");
 		alertNoC.setHeaderText("You don't provide any challenger.");
 		alertNoC.setContentText("Please provide 1-16 challengers here. It should be power of 2.");
+		alertNoC.showAndWait();
+	}
+	
+	private void showAlertWhenFileNotFound() {
+		Alert alertNoC = new Alert(AlertType.ERROR);
+		alertNoC.setTitle("Error Message");
+		alertNoC.setHeaderText("File not found.");
+		alertNoC.setContentText("Please check your file path.");
 		alertNoC.showAndWait();
 	}
 
@@ -930,56 +940,61 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			// 2.check if it is to power of 2
-			boolean valid = validateNameList(nameList);
-			System.out.println(valid);
+			if (fileInvalid == true) {
+				showAlertWhenFileNotFound();
+			} else {
+				// 2.check if it is to power of 2
+				boolean valid = validateNameList(nameList);
+				System.out.println(valid);
 
-			//3.Rearrange them in the order as per the seating
-			reArrangeAccordingToRank();
+				//3.Rearrange them in the order as per the seating
+				reArrangeAccordingToRank();
 
-			// 4.convert these namelist into an array;list of challenger objects
-			createChallengerList(nameList);
+				// 4.convert these namelist into an array;list of challenger objects
+				createChallengerList(nameList);
 
-			root = new Pane();
+				root = new Pane();
 
-			//5. set the num of challengers from the challenger object
-			this.numChallengers = this.nameList.size();
+				//5. set the num of challengers from the challenger object
+				this.numChallengers = this.nameList.size();
+				
+				// 6.call the game management, set the 1st round in the beginning
+				//can call the method as gameManagement
+				// Show error message if challenger number is not valid.
+				if (valid) {
+					gameManagement();
+				} else if (this.numChallengers > 16) {
+					showAlertWhenCNumberIsNotValid();
+					System.exit(-1);
+				} else { // 0 challenger
+					showAlertWhenNoChallenger();
+					System.exit(-1);
+				}
 			
-			// 6.call the game management, set the 1st round in the beginning
-			//can call the method as gameManagement
-			// Show error message if challenger number is not valid.
-			if (valid) {
-				gameManagement();
-			} else if (this.numChallengers > 16) {
-				showAlertWhenCNumberIsNotValid();
-				System.exit(-1);
-			} else { // 0 challenger
-				showAlertWhenNoChallenger();
-				System.exit(-1);
-			}
-		
-			for (int i = 0; i < this.numChallengers; i++) {
-				System.out.print(challengerList.get(i).getCName()+", ");
-			}
-			System.out.println("");
-			for (int i = 0; i < this.numGames; i++) {
-				System.out.print("game"+games.get(i).getGameName()+", ");
-			}
-			System.out.println("");
-			for (int i = 0; i < this.numRounds; i++) {
-				System.out.print(rounds.get(i).getRoundName()+", ");
-			}
-			System.out.println("");	
-			
-			this.computeChallengerColumnArray();
-			this.computeSceneWidth();
-			this.drawBracket();
+				for (int i = 0; i < this.numChallengers; i++) {
+					System.out.print(challengerList.get(i).getCName()+", ");
+				}
+				System.out.println("");
+				for (int i = 0; i < this.numGames; i++) {
+					System.out.print("game"+games.get(i).getGameName()+", ");
+				}
+				System.out.println("");
+				for (int i = 0; i < this.numRounds; i++) {
+					System.out.print(rounds.get(i).getRoundName()+", ");
+				}
+				System.out.println("");	
+				
+				this.computeChallengerColumnArray();
+				this.computeSceneWidth();
+				this.drawBracket();
 
-			Scene scene = new Scene(root,sceneWidth,sceneHeight+sceneAdditionalHeight);
-			root.setBackground(new Background(new BackgroundFill(sceneBGColor, CornerRadii.EMPTY, Insets.EMPTY)));
-			primaryStage.setTitle("Tournament Bracket");
-			primaryStage.setScene(scene);
-			primaryStage.show();
+				Scene scene = new Scene(root,sceneWidth,sceneHeight+sceneAdditionalHeight);
+				root.setBackground(new Background(new BackgroundFill(sceneBGColor, CornerRadii.EMPTY, Insets.EMPTY)));
+				primaryStage.setTitle("Tournament Bracket");
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			}
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -1003,6 +1018,9 @@ public class Main extends Application {
 				}
 			}
 			sc.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found. Please check your file path.");
+			fileInvalid = true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.exit(-1);
