@@ -220,8 +220,12 @@ public class Main extends Application {
 	}
 	
 	
-	// 2.check if it is to power of 2
-	//validateNameList();
+	/**
+	 * Check whether the list of challengers have a size that is power of two.
+	 * Return true if it is power of two, false if it is not.
+	 * @param s Size of the arraylist passed in as parameter
+	 * (Added by William)
+	 */
 	public boolean validateNameList(ArrayList<String> list) {
 		int s = list.size();
 		if (s == 0)
@@ -236,28 +240,35 @@ public class Main extends Application {
 		return true;
 	}
 	
-	//3.Rearrange them in the order as per the seating
-	//reArrangeAccordingToRank();
+	/**
+	 * Rearrange the list of challengers into pairs for the first round matches.
+	 * Challenger 1 faces Challenger 16, Challenger 8 faces Challenger 9...etc.
+	 * @param s Size of the arraylist nameList
+	 * @param ind list used to calculate
+	 * @param playOrder list used to store from ind (1 size bigger)
+	 * @param myRank rank of challenger element
+	 * @param nameListArranged Arraylist stored with correct order
+	 * @param index int returned from helper method after validating match
+	 * (Added by William)
+	 */
 	public static void reArrangeAccordingToRank()
 	{
-		int TG = nameList.size();
+		int s = nameList.size();
 		
-        //Console.WriteLine("Number of games: {0}", TG);
-        int[] ind = new int[TG];
-        int[] playOrder = new int[TG+1];
+        int[] ind = new int[s];
+        int[] playOrder = new int[s+1];
         
-        for (int i = 0; i <= (int)( Math.log((double)TG)/Math.log((double)2)); i++)       
+        for (int i = 0; i <= (int)( Math.log((double)s)/Math.log((double)2)); i++)       
         {
-            for (int N = 1; N <= TG; ++N)
+            for (int N = 1; N <= s; ++N)
             {
                 int myRank = (N - 1) / (int)Math.pow(2.0, (double)i) + 1;
-                ind[N - 1] += ((myRank % 4) / 2) * (int)Math.pow(2.0, ((int)( Math.log((double)TG)/Math.log((double)2)) - i - 1));
+                ind[N - 1] += ((myRank % 4) / 2) * (int)Math.pow(2.0, ((int)( Math.log((double)s)/Math.log((double)2)) - i - 1));
             }
         }
-        for (int N = 1; N <= TG; ++N)
+        for (int N = 1; N <= s; ++N)
         {
             playOrder[N]= ind[N - 1] + 1;
-            //Console.WriteLine("Team {0} plays game {1}", N, ind[N - 1] + 1);
         }
         ArrayList<String> nameListArranged = new ArrayList();
         for(int i = 1; i < playOrder.length; i++)
@@ -269,6 +280,12 @@ public class Main extends Application {
         nameList = nameListArranged;
 	
 	}
+	/**
+	 * Helper method used to find index at the playOrder parameter's position,
+	 * return i as index if match with the array's element. 
+	 * @return i the index
+	 * (Added by William)
+	 */
 	private static int searchPlayOrderRetArrayIndex( final int PlayOrder, final int[] PlayOrderArr )
 	{
 		for(int i=1; i < PlayOrderArr.length; i++ )
@@ -279,8 +296,12 @@ public class Main extends Application {
 		return 0;
 	}
 	
-	// 4.convert these namelist into an array;list of challenger objects
-	//createChallengerList();
+	/**
+	 *Convert an arraylist of Strings into an arraylist of challenger objects.
+	 *@param challengerList the new arraylist of challenger objects
+	 *@return challengerList
+	 * (Added by William)
+	 */
 	public ArrayList<Challenger> createChallengerList(ArrayList<String> list) {
 		challengerList = new ArrayList<Challenger>();
 		for (int i = 0; i < list.size(); i++) {
