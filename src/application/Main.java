@@ -421,12 +421,12 @@ public class Main extends Application {
 	/**
 	 * (Added by Akhila_Jacob)
 	 * Used to draw a challengerNameLabel and challengerScoreTextField
-	 * @param name
-	 * @param x
-	 * @param y
-	 * @param boxtype
-	 * @param c
-	 * @param type
+	 * @param name The challenger name
+	 * @param x Challenger label width  (cell width) 
+	 * @param y Challenger label height (cell height)
+	 * @param boxtype 
+	 * @param c Current challenger
+	 * @param type Different case type
 	 */
 	public void addChallengerBox(String name, double x, double y, int boxtype, Challenger c,int type){
 		TextField challengerScoreCell = null;
@@ -489,7 +489,7 @@ public class Main extends Application {
 	 * (Added by Akhila_Jacob)
 	 * Returns the game corresponding to Game Number
 	 * @param gameNumber
-	 * @return
+	 * @return game
 	 */
 	public Game getGameFromGameNumber(int gameNumber) {
 		for(Round r : rounds) {
@@ -505,9 +505,9 @@ public class Main extends Application {
 	/**
 	 * (Added by Akhila_Jacob)
 	 * Checks if a score has been entered for each challenger corresponding to a game and validates the value
-	 * If valid then we consider the game to be complete.
+	 * If valid then we consider the game to be complete, return true; otherwise return false.
 	 * @param currentGame
-	 * @return
+	 * @return true or false
 	 */
 	public boolean isGameComplete(Game currentGame) {
 		// + THIS SHOULD CHECK BOTH CHALLENGER SCORES AND THROW ERRORS
@@ -542,7 +542,7 @@ public class Main extends Application {
 	 * (Added by Akhila_Jacob)
 	 * Method used to disable the Label,Button and textField corresponding to a round once
 	 * the round is complete
-	 * @param r
+	 * @param r Current round
 	 */
 	public void disableRound(Round r) {
 		for(Game g : r.games) {
@@ -557,7 +557,7 @@ public class Main extends Application {
 	 * (Added by Akhila_Jacob)
 	 * Method used to enable the Label,Button and textField corresponding to the next round
 	 * once the present round is complete
-	 * @param r
+	 * @param r Current round
 	 */
 	public void enableRound(Round r) {
 		for(Game g : r.games) {
@@ -696,11 +696,11 @@ public class Main extends Application {
 	/**
 	 * (Added by Akhila_Jacob)
 	 * Method to add buttons for each game
-	 * @param gameNum
-	 * @param x
-	 * @param y
-	 * @param g
-	 * @param roundNumber
+	 * @param gameNum Total game number
+	 * @param x Button width
+	 * @param y Button height
+	 * @param g Current game
+	 * @param roundNumber Total round number
 	 */
 	public void addGameScoreButton(int gameNum,double x, double y,Game g,int roundNumber){
 		Button button = new Button();
@@ -735,10 +735,10 @@ public class Main extends Application {
 	/**
 	 * (Added by Akhila_Jacob)
 	 * Method to add lined to indicate game propogation
-	 * @param x
-	 * @param y
-	 * @param linetype
-	 * @param length
+	 * @param x Line start position in x axis
+	 * @param y Line start position in y axis
+	 * @param linetype Type of line
+	 * @param length Length of line
 	 */
 	public void addLine(double x, double y, int linetype, double length){
 		Line ln = new Line();
