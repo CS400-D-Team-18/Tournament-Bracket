@@ -297,9 +297,9 @@ public class Main extends Application {
 	}
 	
 	/**
-	 *Convert an arraylist of Strings into an arraylist of challenger objects.
-	 *@param challengerList the new arraylist of challenger objects
-	 *@return challengerList
+	 * Convert an arraylist of Strings into an arraylist of challenger objects.
+	 * @param challengerList the new arraylist of challenger objects
+	 * @return challengerList
 	 * (Added by William)
 	 */
 	public ArrayList<Challenger> createChallengerList(ArrayList<String> list) {
