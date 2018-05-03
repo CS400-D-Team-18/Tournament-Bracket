@@ -39,10 +39,10 @@ public class Game {
 
 	/**
 	 * (Added by Akhila_Jacob)
-	 * @param challenger1
-	 * @param challenger2
-	 * @param childGame
-	 * @param childGameChallengerNumber
+	 * @param challenger1 Challenger1 in this current game
+	 * @param challenger2 Challenger2 in this current game
+	 * @param childGame The correspond game after this current game
+	 * @param childGameChallengerNumber Which challenger in the child game does the winner of the game corresponds to 
 	 */
 	public void updateGameInfo(Challenger challenger1, Challenger challenger2, Game childGame, int childGameChallengerNumber) {
 		if (challenger1 != null) {
@@ -60,13 +60,15 @@ public class Game {
 	}
 	
 	/**
-	 * @return gameScoreButton
+	 * Get this score button in current game
+	 * @return gameScoreButton 
 	 */
 	public Button getGameScoreButton() {
 		return gameScoreButton;
 	}
-
+	
 	/**
+	 * Assign this score button in current game
 	 * @param gameScoreButton
 	 */
 	public void setGameScoreButton(Button gameScoreButton) {
@@ -76,8 +78,8 @@ public class Game {
 	/**
 	 * Method assists in calculating the coordinates of the child game each time we create  a parent game
 	 * (Added by Akhila_Jacob)
-	 * @param isLeft
-	 * @param roundXGap
+	 * @param isLeft Current game is on the left side of the bracket or on the right side
+	 * @param roundXGap Gap between two rounds
 	 */
 	public void updateChildGameChallengerCoordinates(boolean isLeft, double roundXGap)
 	{
