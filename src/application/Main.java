@@ -970,20 +970,7 @@ public class Main extends Application {
 					showAlertWhenNoChallenger();
 					System.exit(-1);
 				}
-			
-				for (int i = 0; i < this.numChallengers; i++) {
-					System.out.print(challengerList.get(i).getCName()+", ");
-				}
-				System.out.println("");
-				for (int i = 0; i < this.numGames; i++) {
-					System.out.print("game"+games.get(i).getGameName()+", ");
-				}
-				System.out.println("");
-				for (int i = 0; i < this.numRounds; i++) {
-					System.out.print(rounds.get(i).getRoundName()+", ");
-				}
-				System.out.println("");	
-				
+						
 				this.computeChallengerColumnArray();
 				this.computeSceneWidth();
 				this.drawBracket();
